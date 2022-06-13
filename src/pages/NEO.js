@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { fetchAPI } from "../functions/fetchAPI";
+// import "react-calendar/dist/Calendar.css";
+// import { Calendar } from "react-calendar";
 
 export const NEO = () => {
-  const [loading, setLoading] = useState(true);
   const [neo, setNeo] = useState("");
+  const [date, setDate] = useState(new Date().toLocaleString().split(",")[0]);
+  const [loading, setLoading] = useState(true);
+  // const [value, onChange] = useState(new Date());
   const today_date = new Date().toLocaleString().split(",")[0];
 
   useEffect(() => {
@@ -29,7 +33,6 @@ export const NEO = () => {
   const NeoItem = () => {
     return (
       <div className="pt-5" style={{ width: "60%", margin: "0 auto" }}>
-        <h1 className="mb-5 text-center">NEOs</h1>
         <div className="d-flex flex-wrap justify-content-around">
           {neo[today_date].map((neos) => (
             <div
@@ -40,7 +43,7 @@ export const NEO = () => {
               <div className="card-header">{neos.name}</div>
               <div className="card-body">
                 <h5 className="card-title mb-4">
-                  Closest on:{" "}
+                  Closest at{" "}
                   {neos.close_approach_data[0].close_approach_date_full}
                 </h5>
                 <p className="card-text">
@@ -64,7 +67,17 @@ export const NEO = () => {
   if (!loading) {
     return (
       <>
-        <h5>Today is {today_date}</h5>
+        <h5 className="text-center mt-5" style={{ fontSize: "2rem" }}>
+          {today_date}
+        </h5>
+        <div className=" d-flex justify-content-center">
+          {/* <Calendar
+            onChange={(v) => {
+              setDate(new Date(v).toLocaleDateString());
+            }}
+            value={value}
+          /> */}
+        </div>
         <NeoItem />
       </>
     );

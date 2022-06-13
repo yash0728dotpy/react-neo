@@ -3,6 +3,7 @@ import { fetchAPI } from "../functions/fetchAPI";
 
 export const APOD = () => {
   const [loading, setLoading] = useState(true);
+  const [bgUrl, setBgUrl] = useState("");
   const [apod, setApod] = useState("");
 
   useEffect(() => {
@@ -11,6 +12,12 @@ export const APOD = () => {
         "https://api.nasa.gov/planetary/apod?api_key=MvHH5wL3MivG9rh8aYRrF2UD4lt9kxiB5HJ3dwFP"
       );
       setApod(response);
+      try {
+        await fetch(response.hdurl, { mode: "no-cors" });
+        setBgUrl(response.hdurl);
+      } catch {
+        setBgUrl(response.url);
+      }
       setLoading(false);
       console.log(response);
     }
@@ -21,7 +28,7 @@ export const APOD = () => {
     height: "85vh",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
-    backgroundImage: "url(" + apod.hdurl + ")",
+    backgroundImage: "url(" + bgUrl + ")",
   };
 
   if (!loading) {

@@ -5,9 +5,6 @@ export const Nav = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-light">
       <div className="d-md-flex d-block flex-row mx-md-auto mx-0">
-        <a className="navbar-brand" style={{ fontSize: "2rem" }} href="/">
-          APOD
-        </a>
         <button
           className="navbar-toggler"
           type="button"
@@ -22,12 +19,12 @@ export const Nav = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <a
-                className="nav-link active"
-                style={{ fontSize: "2rem" }}
-                aria-current="page"
-                href="/neo"
-              >
+              <a className="nav-link" style={{ fontSize: "2rem" }} href="/">
+                APOD
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" style={{ fontSize: "2rem" }} href="/neo">
                 NEO
               </a>
             </li>
