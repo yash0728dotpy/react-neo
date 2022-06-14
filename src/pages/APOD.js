@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { fetchAPI } from "../functions/fetchAPI";
 
 export const APOD = () => {
-  const [loading, setLoading] = useState(true);
-  const [bgUrl, setBgUrl] = useState("");
   const [apod, setApod] = useState("");
+  const [bgUrl, setBgUrl] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function asyncFetch() {
@@ -24,22 +24,18 @@ export const APOD = () => {
     asyncFetch();
   }, []);
 
-  const background = {
-    height: "85vh",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    backgroundImage: "url(" + bgUrl + ")",
-  };
-
   if (!loading) {
     return (
       <>
         <h1 className="text-center my-2">{apod.title}</h1>
         <h3 className="text-center my-2">{apod.copyright}</h3>
-        <div
-          className="d-flex justify-content-center align-items-center"
-          style={background}
-        ></div>
+        <img
+          alt="apod"
+          src={bgUrl}
+          style={{
+            width: "100%",
+          }}
+        />
         <p
           className="fw-light text-justify m-4"
           style={{ fontSize: "2rem", lineHeight: "2" }}

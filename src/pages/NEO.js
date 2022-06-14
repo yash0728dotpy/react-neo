@@ -1,22 +1,22 @@
+import moment from "moment";
+import { Calendar } from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import React, { useEffect, useState } from "react";
 import { fetchAPI } from "../functions/fetchAPI";
-// import "react-calendar/dist/Calendar.css";
-// import { Calendar } from "react-calendar";
 
 export const NEO = () => {
   const [neo, setNeo] = useState("");
-  const [date, setDate] = useState(new Date().toLocaleString().split(",")[0]);
   const [loading, setLoading] = useState(true);
-  // const [value, onChange] = useState(new Date());
-  const today_date = new Date().toLocaleString().split(",")[0];
+  const [date, setDate] = useState(new Date());
+  // const today_date = new Date().toLocaleString().split(",")[0];
 
   useEffect(() => {
     async function asyncFetch() {
       let response = await fetchAPI(
         "https://api.nasa.gov/neo/rest/v1/feed?start_date=" +
-          today_date +
+          moment(date).format("YYYY-MM-DD") +
           "&end_date=" +
-          today_date +
+          moment(date).format("YYYY-MM-DD") +
           "&api_key=MvHH5wL3MivG9rh8aYRrF2UD4lt9kxiB5HJ3dwFP"
       );
       setNeo(response.near_earth_objects);
@@ -24,7 +24,7 @@ export const NEO = () => {
       console.log(response);
     }
     asyncFetch();
-  }, [today_date]);
+  }, [date]);
 
   const neoStyle = {
     maxWidth: "23rem",
@@ -34,7 +34,7 @@ export const NEO = () => {
     return (
       <div className="pt-5" style={{ width: "60%", margin: "0 auto" }}>
         <div className="d-flex flex-wrap justify-content-around">
-          {neo[today_date].map((neos) => (
+          {neo[moment(date).format("YYYY-MM-DD")].map((neos) => (
             <div
               key={neos.id}
               className="card text-white bg-dark mb-5"
@@ -44,7 +44,11 @@ export const NEO = () => {
               <div className="card-body">
                 <h5 className="card-title mb-4">
                   Closest at{" "}
-                  {neos.close_approach_data[0].close_approach_date_full}
+                  {
+                    neos.close_approach_data[0].close_approach_date_full.split(
+                      " "
+                    )[1]
+                  }
                 </h5>
                 <p className="card-text">
                   {neos.is_potentially_hazardous_asteroid ? (
@@ -64,19 +68,16 @@ export const NEO = () => {
       </div>
     );
   };
-  if (!loading) {
+  if (!loading && neo[moment(date).format("YYYY-MM-DD")]) {
     return (
       <>
         <h5 className="text-center mt-5" style={{ fontSize: "2rem" }}>
-          {today_date}
+          {date.toLocaleDateString()}
         </h5>
         <div className=" d-flex justify-content-center">
-          {/* <Calendar
-            onChange={(v) => {
-              setDate(new Date(v).toLocaleDateString());
-            }}
-            value={value}
-          /> */}
+          <div>
+            <Calendar onChange={setDate} value={date} />
+          </div>
         </div>
         <NeoItem />
       </>
